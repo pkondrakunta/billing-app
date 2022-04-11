@@ -1,0 +1,27 @@
+{
+  "name": "kchsl-billing-app",
+  "version": "1.4.0",
+  "description": "Billing & Member Management System for KCHSL",
+  "main": "main.js",
+
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win --x64"
+  },
+  "author": "Pragnya Kondrakunta",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "7.0.0",
+    "electron-builder": "^22.2.0"
+  },
+  "build": {
+    "appId": "com.kchsl.desktop.app",
+    "productName": "KCHSL"
+  },
+  "dependencies": {
+    "date-and-time": "^0.12.0",
+    "electron-json-storage": "^4.1.8",
+    "firebase": "^7.9.3"
+  }
+}

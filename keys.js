@@ -1,0 +1,1 @@
+const firebaseConfig = YOUR-FIRBASE-CONFIG-JSON;

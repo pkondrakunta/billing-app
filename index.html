@@ -1,0 +1,48 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>KCHSL Billing App</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
+
+  <link rel="stylesheet" href="./mylibs/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="index.css" />
+
+
+  <script>
+    window.$ = window.jQuery = require('./mylibs/jquery.min.js');
+  </script>
+  <script type="text/javascript" src="./mylibs/popper.min.js"></script>
+  <script type="text/javascript" src="./mylibs/bootstrap/bootstrap.min.js"></script>
+
+</head>
+
+<body class="align-items-center justify-content-center text-center">
+  <br/>
+  <br/>
+  <div class="container">
+    <h3>Kakatiya Nagar Cooperative Housing Society Limited</h3> <br/><br/>
+
+    <div class="loginbox">
+<br/>
+      <p>Please login to continue.</p>
+      <p id="loginfail"></p>
+      <form id="loginform" onsubmit="event.preventDefault(); checkInternet()">
+        <input style="width: 70%" class="form-control-sm" type="text" placeholder="Enter Username" name="uname" id="user" required />
+        <br />
+        <input style="width: 70%" class="form-control-sm" type="password" placeholder="Enter Password" name="psw" id="psw" required />
+        <br />
+        <!-- <a href="#" style="color: #4776E6;">Forgot password?</a> -->
+  <br/>
+        <button type="submit" onclick="authentication()" class="btn btn-theme">
+          Log In
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="./index.js"></script>
+</body>
+
+</html>

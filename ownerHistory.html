@@ -1,0 +1,106 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
+
+    <link rel="stylesheet" href="./mylibs/bootstrap/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="home.css" />
+    <style>
+        body {
+            line-height: 0.8;
+        }
+
+        td {
+            padding-left: 10px;
+            text-align: right;
+        }
+    </style>
+    <title>Owner History</title>
+
+</head>
+
+
+<body onLoad="fetchHistory()" style="text-align: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', sans-serif;">
+    <br /><br/>
+    <h3><strong>Kakateeya Nagar Cooperative Housing Society Ltd.</strong></h3><br/>
+    <p style="font-size: 12px;">M-2, Kakateeya Nagar, Habsiguda, Hyderabad - 500 007 (Regd. No. 21410)</p>
+    <p style="font-size: 12px;">Phone: 040-2715 2046 / 2715 5489, Email: office.kchsl@gmail.com</p>
+    
+    <div class="container" id="title" style="margin-top: 30px;">
+    
+    </div>
+    
+    <div class="container" id="content">
+        
+    </div>
+
+    <br/>
+    <br/>
+    <button id="pb" onclick="printB()">Print</button>
+
+
+
+ <script>
+    window.$ = window.jQuery = require('./mylibs/jquery.min.js');
+  </script>
+  <script type="text/javascript" src="./mylibs/popper.min.js"></script>
+  <script type="text/javascript" src="./mylibs/bootstrap/bootstrap.min.js"></script>
+
+
+    <script>
+        var memId = decodeURIComponent(window.location.search);
+        const firebase = require("firebase");
+        const date = require('date-and-time');
+
+        require("firebase/firestore");
+
+        firebase.initializeApp({
+            apiKey: "AIzaSyDRAurj89rKfwwBMoRjQ5JfzRKUDM9ax-I",
+            authDomain: "desktop-app-8b038.firebaseapp.com",
+            projectId: "desktop-app-8b038",
+        });
+
+        var db = firebase.firestore();
+
+        memId = memId.substring(1);
+        console.log(memId);
+
+        function fetchHistory() {
+            db.collection("Ownership-Transfers").where("memberNumber", "==", memId).orderBy("dateChanged","asc").get()
+                .then(function (querySnapshot) {
+                    // spinner make it none
+                    if (querySnapshot.empty == true) {
+                        alert("No ownership transfers found for this Member.");
+                        document.getElementById("title").innerHTML="<h4><strong>No ownership history found for Member number: "+memId+"</strong></h4>";
+                    } else {
+                        document.getElementById("title").innerHTML="<h4><strong>Ownership history for Member number: "+memId+"</strong></h4>";
+                        querySnapshot.forEach(function (doc) {
+                            transactions = doc.data();
+                            d=new Date(transactions.dateChanged);
+                            console.log(transactions);
+                            document.getElementById("content").innerHTML+='<br/><div class="row" style="margin-top: 30px;"><div class="col-md-3"><h4><strong>'+transactions.oldData[0]+'</strong></h4><p>'+transactions.oldData[1]+'</p><p>'+transactions.oldData[2]+'</p></div><div class="col-md-4 offset-md-1"><p>'+date.format(d, 'DD MMM, YYYY')+'</p><img src="assets/arrow.png"/></div><div class="col-md-3 offset-md-1"><h4><strong>'+transactions.newData[0]+'</strong></h4><p>'+transactions.oldData[1]+'</p><p>'+transactions.oldData[2]+'</p></div></div><hr/>';
+                        });
+                    }
+                }).catch(function (error) {
+                    alert(error);
+                    console.log(error);
+                })
+
+        }
+
+        function printB() {
+            console.log("entered")
+            document.getElementById("pb").style.display = "none";
+            print();
+            window.location.reload();
+            document.getElementById("pb").style.display = "inline-flex";
+
+        }
+    </script>
+</body>
+
+
+
+</html>

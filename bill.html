@@ -1,0 +1,136 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="home.css" />
+  <style>
+    body {
+      line-height: 0.8;
+    }
+
+    td {
+      padding-left: 10px;
+      text-align: right;
+    }
+  </style>
+  <title>New bill</title>
+
+</head>
+
+<body onload="bill()" style="text-align: center; font-family: Tahoma, sans-serif;">
+  <br />
+  <h3>Kakateeya Nagar Cooperative Housing Society Ltd.</h3>
+  <p style="font-size: 12px;">M-2, Kakateeya Nagar, Habsiguda, Hyderabad - 500 007 (Regd. No. 21410)</p>
+  <p style="font-size: 12px;">Phone: 040-2715 2046 / 2715 5489, Email: office.kchsl@gmail.com</p>
+
+  <h4>Water Bill</h4>
+
+  <div style="border: 1px solid black;">
+    <p style="position: absolute ;left: 58px; top: 150px;" id="date"></p>
+
+    <p style="position: absolute ;right: 58px; top: 150px;" id="billnum"></p>
+
+    <br />
+    <br />
+
+    <div style="text-align: left; margin-left: 50px;">
+
+      <p id="num">Member Number : </b> </p>
+
+      <p id="name">Member Name : </p>
+
+      <p id="ph">Phone Number : </p>
+    </div>
+    <p id="months"></p>
+
+    <table>
+      <tr>
+        <td style="text-align: left;">Water Charges</td>
+        <td> : ₹ </td>
+        <td id="water"></td>
+      </tr>
+      <tr>
+        <td style="text-align: left;">Admin Charges</td>
+        <td> : ₹ </td>
+        <td id="admin"></td>
+      </tr>
+      <tr>
+        <td style="text-align: left;">Late Fee</td>
+        <td> : ₹ </td>
+        <td id="late"></td>
+      </tr>
+      <tr>
+        <td style="text-align: left;">Other</td>
+        <td> : ₹ </td>
+        <td id="other"></td>
+      </tr>
+
+      <tr style="font-weight:bold;">
+        <th style="text-align: left;">Total</th>
+        <td> : ₹ </td>
+        <td id="tot"></td>
+      </tr>
+
+    </table>
+
+    <br />
+  </div>
+  <br />
+  <button id="pb" onclick="printB()">Print Bill</button>
+  <!-- <script src="download.js"></script> -->
+  <script>
+    var queryString = decodeURIComponent(window.location.search);
+
+
+    function bill() {
+      queryString = queryString.substring(1);
+      var queries = queryString.split("&");
+      console.log(queries);
+
+      var date = queries[0];
+      var memNum = queries[1];
+      var nam = queries[2];
+      var phone = queries[3];
+      waterFee = queries[4];
+      admin = queries[5];
+      late = queries[6]
+      other = queries[7]
+
+      startM = queries[8];
+      endM = queries[9];
+      var bID = queries[10];
+      var CC = queries[11];
+
+      document.getElementById("date").innerHTML += "Date : " + date;
+      document.getElementById("billnum").innerText = "Billing ID : " + bID;
+      document.getElementById("num").innerHTML += memNum;
+      document.getElementById("name").innerHTML += nam;
+      document.getElementById("ph").innerHTML += phone;
+
+
+      total = parseInt(waterFee) + parseInt(late) +parseInt(admin) + parseInt(other);
+
+      document.getElementById("water").innerText = waterFee;
+      document.getElementById("admin").innerText = admin;
+      document.getElementById("late").innerText = late;
+      document.getElementById("other").innerText = other;
+      document.getElementById("tot").innerText = total;
+
+
+      document.getElementById("months").innerHTML = "Bill generated from <b>" + startM +
+        "</b> and is valid up to <b>" + endM + "</b><br/><br/> Payment (Cash/Cheque Number) : " + CC;
+
+      // download(document.body.outerHTML, bID + ".pdf", "text");
+
+    }
+
+    function printB() {
+      document.getElementById("pb").style.display = "none";
+      print();
+    }
+  </script>
+</body>
+
+
+
+</html>

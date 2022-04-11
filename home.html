@@ -1,0 +1,595 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" /> -->
+
+  <link rel="stylesheet" href="./mylibs/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="home.css" />
+
+
+  <script type="text/javascript" src='./mylibs/jquery.min.js'></script>
+
+  <script type="text/javascript" src="./mylibs/popper.min.js"></script>
+  <script type="text/javascript" src="./mylibs/bootstrap/bootstrap.min.js"></script>
+
+</head>
+
+<body class="container justify-content-center">
+  <br />
+
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <a class="navbar-brand" style="font-size: 17px; color: white;font-weight: bold;">Kakatiya Nagar Housing Society</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"><img src="./assets/dropdown.png" style="width:30px;"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link " href="./home.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="./getmembers.html">Members Details</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true"
+            aria-expanded="false">Reports</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="./monthReport.html">Monthly</a>
+            <a class="dropdown-item" href="#">Yearly <em>(Coming Soon)</em></a>
+          </div>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="./addmember.html">Add Member</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./index.html">Log Out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <br /> <br />
+
+
+  <br />
+  <div class="container" style="width: inherit; text-align: center;">
+    <br />
+    <div id="mem-search">
+      <div class="text-center" style="text-align: center;">
+        <div id="search-div">
+
+          <label class="switch" style="bottom: 22px;right: 20px;">
+            <input id="s-tog" type="checkbox" checked onclick="toggle_search()">
+            <span class="slider round"></span>
+          </label>
+
+          <input style="width:300px; display: inline-block;" id="search_input" type="text" required class="form-control"
+            placeholder="Search Member Number">
+          <button class="btn search-btn" id="mem_s_btn" onclick="searchNumber()"><img src="./assets/search_tool.png"
+              style="height:22px; opacity: 0.7;">
+          </button>
+
+          <input style="width:300px; display: none;" id="bill_search" type="text" required class="form-control"
+            placeholder="Search Bill ID">
+          <button class="btn search-btn" style="display: none;" id="bill_btn" onclick="searchBill()"><img
+              src="./assets/search_tool.png" style="height:22px; opacity: 0.7;">
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="container">
+    <br />
+
+    <div class="text-center">
+      <div id="load-spinner" style="display: none;">
+        <div class="spinner-border spinner-border-sm" role="status">
+        </div>
+      </div>
+    </div>
+
+    <div id="noData" style="text-align: center; display: none;">Sorry, Member Number doesn't exist in the database.
+    </div>
+
+    <div id="memberDets" class="row" style="display: none;">
+      <table id="searchedMem" class="table">
+        <thead style="color: #8E54E9;">
+          <tr>
+            <th scope="col">Member Number</th>
+            <th scope="col">Plot</th>
+            <th scope="col">Plot Type</th>
+            <th scope="col">Name</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Last Paid On</th>
+            <th scope="col">Expiry</th>
+            <th scope="col">Status</th>
+
+          </tr>
+        </thead>
+        <tr>
+          <td id="memN"> </td>
+          <td id="plot"> </td>
+          <td id="type"> </td>
+          <td id="name"> </td>
+          <td id="phone"> </td>
+          <td id="lastPd"> </td>
+          <td id="exp"> </td>
+          <td id="stat"><label class="switch"><input id="dis_btn" type="checkbox" onclick="disconnect()"><span
+                class="slider round"></span></label></td>
+
+        </tr>
+
+      </table>
+
+      <div class="text-center">
+        <button class="btn btn-theme mem-btn" onclick="billing()" data-target="#billModal" data-toggle="modal">Generate
+          Bill</button>
+
+        <!-- <button class="btn btn-theme mem-btn" onclick="prev_bill_func()" data-target="#prevBillModal"
+          data-toggle="modal">Generate
+          Previous Bill</button> -->
+          
+        <button class="btn btn-theme mem-btn" data-target="#updateModal" data-toggle="modal" onclick="updModal()">Update
+          Member
+          details</button>
+        <button class="btn btn-theme mem-btn" onclick="checkTransfer()">Check Ownership Transfer</button>
+      </div>
+      <div class="text-center admin_feat" style="display: none;">
+        <button class="btn btn-theme mem-btn" data-toggle="modal" data-target="#transferO">Transfer Ownership</button>
+        <button class="btn btn-theme mem-btn" onclick="deleteMember()">Delete Member</button>
+      </div>
+    </div>
+
+    <div id="billDets" class="row" style="display: none;">
+      <table class="table" style="width: 400px;">
+
+        <tr>
+          <th scope="col">Bill ID</th>
+          <td id="ID"> </td>
+        </tr>
+        <tr>
+          <th scope="col">Member Number</th>
+          <td id="mNumber"> </td>
+        </tr>
+        <tr>
+          <th scope="col">Bill Date</th>
+          <td id="lp"> </td>
+        </tr>
+        <tr>
+          <th scope="col">Paid Until</th>
+          <td id="until"> </td>
+        </tr>
+        <tr>
+          <th scope="col">Cash/Cheque Number</th>
+          <td id="CC"> </td>
+        </tr>
+        <tr>
+          <th scope="col">&nbsp;&nbsp;&nbsp;&nbsp;Water Charges</th>
+          <td id="wat_ch"> </td>
+        </tr>
+        <tr>
+          <th scope="col">&nbsp;&nbsp;&nbsp;&nbsp;Admin Charges</th>
+          <td id="adm_ch"> </td>
+        </tr>
+        <tr>
+          <th scope="col">&nbsp;&nbsp;&nbsp;&nbsp;Late Charges</th>
+          <td id="late_ch"> </td>
+        </tr>
+        <tr>
+          <th scope="col">&nbsp;&nbsp;&nbsp;&nbsp;Other Charges</th>
+          <td id="other_ch"> </td>
+        </tr>
+        <tr class="table-info" style="font-weight: bold;">
+          <th scope="col">Total Paid Amount</th>
+          <td id="tot_ch"> </td>
+        </tr>
+
+      </table>
+
+    </div>
+  </div>
+
+
+  <br />
+
+
+  <!-- Update Modal -->
+  <div class="modal fade" id="updateModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Update Member Details</h6>
+        </div>
+        <div class="modal-body">
+
+
+          <form style="width: 300px; margin-left:auto;margin-right:auto;">
+
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span style="font-weight: bold" class="input-group-text">Member Number : </span>
+              </div>
+              <input id="upd-memberNumber" type="number" class="form-control">
+            </div>
+
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span style="font-weight: bold" class="input-group-text">Plot Number : </span>
+              </div>
+              <input id="upd-plot" type="number" class="form-control">
+            </div>
+
+
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span style="font-weight: bold" class="input-group-text">Plot Number : </span>
+              </div>
+              <select class="custom-select" id="upd-selectedPlotType">
+                <option value="Residential">Residential</option>
+                <option value="Commercial">Commercial</option>
+              </select>
+            </div>
+
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span style="font-weight: bold" class="input-group-text">Full Name : </span>
+              </div>
+              <input id="upd-fullName" type="number" class="form-control">
+            </div>
+
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span style="font-weight: bold" class="input-group-text">Phone Number : </span>
+              </div>
+              <input id="upd-phone" type="number" class="form-control">
+            </div>
+            <br />
+
+            <p>Slabs (Monthly)</p>
+
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span style="font-weight: bold" class="input-group-text">Water Charges :</span>
+              </div>
+              <input disabled id="upd-wat-ch" type="number" class="form-control">
+            </div>
+
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span style="font-weight: bold" class="input-group-text">Admin Charges :</span>
+              </div>
+              <input disabled id="upd-adm-ch" type="number" class="form-control">
+            </div>
+
+            <button type="button" onclick="updateMember()" class="btn btn-sm btn-theme">Update</button>
+
+            <!-- <table>
+              <tr>
+                <th>Member Number:</th>
+                <th>
+                  <input type="text" class="dis" id="upd-memberNumber" required />
+                </th>
+              </tr>
+
+              <tr>
+                <th>Plot number:</th>
+                <th>
+                  <input type="text" class="dis" id="upd-plot" required />
+                </th>
+              </tr>
+
+              <tr>
+                <th>Plot type:</th>
+                <th>
+                  <select class="custom-select" id="upd-selectedPlotType">
+                    <option value="Residential">Residential</option>
+                    <option value="Commercial">Commercial</option>
+                  </select> </th>
+              </tr>
+
+              <tr>
+                <th>Full Name:</th>
+                <th>
+                  <input class="dis" type="text" id="upd-fullName" required />
+                </th>
+              </tr>
+
+              <tr>
+                <th>Phone number:</th>
+                <th>
+                  <input type="text" id="upd-phone" required />
+                </th>
+              </tr>
+
+            </table> -->
+
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Update modal ends -->
+
+  <!-- Bill Modal  -->
+  <div class="modal fade" id="billModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Bill Generation</h6>
+        </div>
+
+        <div id="bill-spinner" style="display: none;">
+          <br />
+          <div class="text-center">
+            <div class="spinner-border spinner-border-sm" role="status">
+            </div>
+          </div>
+          <br />
+        </div>
+
+        <div id="bill-body" class="modal-body" style="text-align: center;">
+
+          <p id="LastDate"></p>
+          <!-- <p id="calcBill"></p> -->
+
+          <div class=" text-center">
+            <select class="custom-select custom-select-sm billMonths" id="startBill">
+            </select>
+
+            to
+
+            <select onchange="totBill()" class="custom-select custom-select-sm billMonths" id="paidUntilMonth">
+            </select>
+            <br />
+
+            <div id="manual-bill" style="width: 300px; margin-left: auto; margin-right:auto">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Water Charges : </span>
+                </div>
+                <input id="water" type="number" class="form-control" value="0" disabled>
+              </div>
+
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Admin Charges : </span>
+                </div>
+                <input id="admin" type="number" class="form-control" value="0" disabled>
+              </div>
+
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Late Charges : </span>
+                </div>
+                <input id="late" type="number" class="form-control" value="0" disabled>
+              </div>
+
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Other : </span>
+                </div>
+                <input id="other" onkeyup="totBill()" type="number" class="form-control" value="0">
+              </div>
+
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Total : </span>
+                </div>
+                <input id="totAmt" type="number" class="form-control" value="0" disabled>
+              </div>
+
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Cash/Cheque No : </span>
+                </div>
+                <input id="chequeNo" onchange="totBill()" type="text" class="form-control" value="Cash">
+              </div>
+
+              <div class="custom-control custom-checkbox ">
+                <input onchange="totBill()" type="checkbox" class="custom-control-input" id="yearlyCheck">
+                <label class="custom-control-label" for="yearlyCheck">Yearly Payment</label>
+
+              </div>
+
+            </div>
+
+            <br />
+
+            <button id="BillGenBtn" disabled class="btn btn-theme" onclick="genBill()">Generate Bill</button>
+
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Bill Modal ends -->
+
+
+  <!-- Backdated Bill Modal  -->
+  <div class="modal fade" id="prevBillModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Bill Generation</h6>
+        </div>
+
+        <div id="bill-spinner" style="display: none;">
+          <br />
+          <div class="text-center">
+            <div class="spinner-border spinner-border-sm" role="status">
+            </div>
+          </div>
+          <br />
+        </div>
+
+        <div id="bill-body" class="modal-body text-center" style="text-align: center;">
+
+
+          <!-- Last Paid Manual Entry -->
+          <div class="input-group input-group-sm text-center" style="width: 300px;">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Bill Date : </span>
+            </div>
+            <input id="prev_bill_date" type="date" class="form-control form-control-sm" required>
+          </div>
+          <!-- Ends here -->
+
+
+          <div class=" text-center">
+
+            <div class="input-group input-group-sm text-center" style="width: 400px;">
+
+              <input onchange="prev_bill_charges_calc()" value="2020-09-20" id="start_m" type="date"
+                class="form-control form-control-sm" required>
+
+              &nbsp to &nbsp
+              <input onchange="prev_bill_charges_calc()" id="end_m" type="date" class="form-control form-control-sm"
+                required>
+
+            </div>
+
+
+            <div id="manual-bill" style="width: 300px; margin-left: auto; margin-right:auto">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Water Charges : </span>
+                </div>
+                <input id="prev_water" onkeyup="prev_bill_charges_calc()" type="number" class="form-control" value="0"
+                  disabled>
+              </div>
+
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Admin Charges : </span>
+                </div>
+                <input id="prev_admin" onkeyup="prev_bill_charges_calc()" type="number" class="form-control" value="0"
+                  disabled>
+              </div>
+
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Late Charges : </span>
+                </div>
+                <input id="prev_late" onkeyup="prev_bill_charges_calc()" type="number" class="form-control" value="0">
+              </div>
+
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Other : </span>
+                </div>
+                <input id="prev_other" onkeyup="prev_bill_charges_calc()" type="number" class="form-control" value="0">
+              </div>
+
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Total : </span>
+                </div>
+                <input id="prev_totAmt" type="number" class="form-control" value="0" disabled>
+              </div>
+
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Cash/Cheque No : </span>
+                </div>
+                <input id="prev_chequeNo" onchange="prev_bill_charges_calc()" type="text" class="form-control"
+                  value="Cash">
+              </div>
+
+            </div>
+
+            <br />
+
+            <button id="BillGenBtn" class="btn btn-sm btn-theme" onclick="genBill()">Generate Bill</button>
+
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Backdated Bill Modal ends -->
+
+
+  <!-- Transfer Ownership Modal -->
+  <div class="modal fade" id="transferO" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Transfer Ownership</h6>
+        </div>
+        <div class="modal-body" style="text-align: center;">
+
+          <table>
+            <tr>
+              <th>New Owner Full Name:</th>
+              <th>
+                <input type="text" id="new-name" required />
+              </th>
+            </tr>
+
+            <tr>
+              <th>Phone Number:</th>
+              <th>
+                <input type="text" id="new-phone" required />
+              </th>
+            </tr>
+
+            <tr>
+              <th>Plot type:</th>
+              <th>
+                <select class="custom-select" id="newSelectedPlotType">
+                  <option value="res">Residential</option>
+                  <option value="com">Commercial</option>
+                </select> </th>
+            </tr>
+          </table>
+          <br />
+          <button class="btn btn-theme" onclick="transferOwner()">Transfer</button>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Transfer Ownership Modal ends -->
+
+  </div>
+
+  <script type="text/javascript" src="./home.js"></script>
+
+</body>
+
+</html>

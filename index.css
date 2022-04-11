@@ -1,0 +1,61 @@
+h3 {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+
+.loginbox {
+    /* padding: 16px; */
+    width: 350px;
+    text-align: center;
+    border: 1px solid #9d9d9d;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    /* box-shadow: 5px 5px 5px #888888; */
+    font-family: 'Roboto', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 90%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    /* display: inline-block; */
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 5px;
+
+    font-family: 'Roboto', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}
+
+.btn-theme {
+    background-color: #fff;
+    /* border-color: #FF5F6D;
+    color: #FF5F6D; */
+    border-color: #4776E6;
+    color: #4776E6;
+
+}
+
+.btn-theme:hover {
+    transition-duration: 0.1s;
+    border-color: #fff;
+    color: #fff;
+    /* background-image: linear-gradient(to right, #FF5F6D, #FFC371); */
+    background-image: linear-gradient(to right, #4776E6, #8E54E9);
+
+}
+
+#loginfail {
+    color: #4776E6;
+}
+
+.form-control-sm {
+    width: 50px;
+}
+
+tr {
+    -webkit-print-color-adjust: exact;
+}
