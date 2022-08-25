@@ -1,14 +1,11 @@
 const firebase = require("firebase");
-require("firebase/firestore");
+// require("firebase/firestore");
 const date = require('date-and-time');
 const storage = require('electron-json-storage');
 
+const {firebaseConfig} = require('./keys');
 
-firebase.initializeApp({
-    apiKey: "AIzaSyDRAurj89rKfwwBMoRjQ5JfzRKUDM9ax-I",
-    authDomain: "desktop-app-8b038.firebaseapp.com",
-    projectId: "desktop-app-8b038",
-});
+firebase.initializeApp(firebaseConfig);
 
 var db = firebase.firestore();
 

@@ -1,10 +1,16 @@
 const firebase = require("firebase");
 const date = require('date-and-time');
 const storage = require('electron-json-storage');
+// const firebaseConfig = require("./keys.js");
 
-const firebaseConfig = require("./keys.js");
+const {firebaseConfig} = require('./keys');
+
+// import { firebaseConfig } from 'keys.js';
+
+console.log(firebaseConfig);
 
 firebase.initializeApp(firebaseConfig);
+
 
 var db = firebase.firestore();
 

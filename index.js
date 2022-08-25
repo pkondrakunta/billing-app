@@ -1,15 +1,10 @@
 const firebase = require("firebase");
 const storage = require('electron-json-storage');
-const defaultDataPath = storage.getDefaultDataPath()
+const defaultDataPath = storage.getDefaultDataPath();
 
-require("firebase/firestore");
+const {firebaseConfig} = require("./keys");
 
-
-firebase.initializeApp({
-    apiKey: "AIzaSyDRAurj89rKfwwBMoRjQ5JfzRKUDM9ax-I",
-    authDomain: "desktop-app-8b038.firebaseapp.com",
-    projectId: "desktop-app-8b038"
-});
+firebase.initializeApp(firebaseConfig);
 
 var db = firebase.firestore();
 

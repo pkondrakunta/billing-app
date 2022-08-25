@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" /> -->
-
   <link rel="stylesheet" href="./mylibs/bootstrap/bootstrap.min.css" />
   <link rel="stylesheet" href="home.css" />
 
-
+  <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
   <script type="text/javascript" src='./mylibs/jquery.min.js'></script>
-
   <script type="text/javascript" src="./mylibs/popper.min.js"></script>
+
   <script type="text/javascript" src="./mylibs/bootstrap/bootstrap.min.js"></script>
+
 
 </head>
 
@@ -59,8 +59,8 @@
     <br />
     <div id="mem-search">
       <div class="text-center" style="text-align: center;">
-        <div id="search-div">
 
+        <div id="search-div">
           <label class="switch" style="bottom: 22px;right: 20px;">
             <input id="s-tog" type="checkbox" checked onclick="toggle_search()">
             <span class="slider round"></span>
@@ -79,6 +79,7 @@
           </button>
 
         </div>
+        
       </div>
     </div>
 
@@ -427,7 +428,7 @@
 
 
   <!-- Backdated Bill Modal  -->
-  <div class="modal fade" id="prevBillModal" role="dialog">
+  <!-- <div class="modal fade" id="prevBillModal" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -444,17 +445,6 @@
         </div>
 
         <div id="bill-body" class="modal-body text-center" style="text-align: center;">
-
-
-          <!-- Last Paid Manual Entry -->
-          <div class="input-group input-group-sm text-center" style="width: 300px;">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Bill Date : </span>
-            </div>
-            <input id="prev_bill_date" type="date" class="form-control form-control-sm" required>
-          </div>
-          <!-- Ends here -->
-
 
           <div class=" text-center">
 
@@ -533,7 +523,7 @@
 
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- Backdated Bill Modal ends -->
 
 
@@ -586,9 +576,11 @@
   </div>
   <!-- Transfer Ownership Modal ends -->
 
-  </div>
+  </div>  
 
+  <!-- <script src="./home.js"></script> -->
   <script type="text/javascript" src="./home.js"></script>
+  <script type="module" src="keys.js"></script>
 
 </body>
 
