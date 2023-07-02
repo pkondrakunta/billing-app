@@ -1,6 +1,7 @@
-# KCHSL Billing Application
+# Community Care Hub 
+### A billing and management app for communities and societies
 
-A template that can be used to build Desktop applications for a society or a community. 
+This template can be used to build Desktop applications for a society or a community. Maintains a member list (CRUD operations using Firebase), generating bills and monthly/yearly reports.
 
 ## Build Instructions
 > You would need node.js and electron for this project `npm i electron -g`
